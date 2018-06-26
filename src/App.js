@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'grommet/grommet.min.css';
 
 import { App, Header, Title } from 'grommet';
-import { updatePosts } from './actions';
+import { loadAllPosts } from './actions';
 import { Post } from './components';
 import { PreviewList } from './views';
 import { connect } from 'react-redux';
@@ -10,14 +10,9 @@ import { HashRouter as Router, Route, Link } from 'react-router-dom';
 
 
 class YuzuApp extends Component {
-  loadAllPosts(posts) {
-    this.props.updatePosts(posts);
-  }
-
   componentDidMount() {
-    fetch("https://jsonbin.io/b/59f721644ef213575c9f6531")
-      .then(response => response.json())
-      .then(data => this.loadAllPosts(data));
+    this.props.loadAllPosts()
+      .then(() => console.log('All posts loaded'));
   }
 
   render() {
@@ -36,4 +31,4 @@ class YuzuApp extends Component {
   }
 }
 
-export default connect(null, { updatePosts })(YuzuApp);
+export default connect(null, { loadAllPosts })(YuzuApp);
